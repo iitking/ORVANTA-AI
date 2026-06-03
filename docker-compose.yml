@@ -1,0 +1,122 @@
+version: "3.9"
+
+services:
+  # ==========================================
+  # Database Layer (PostgreSQL with pgvector)
+  # ==========================================
+  postgres:
+    image: pgvector/pgvector:pg16
+    container_name: orvanta-postgres
+    restart: always
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-orvanta}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-orvanta_secure_password}
+      POSTGRES_DB: ${POSTGRES_DB:-orvanta_ai}
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U orvanta -d orvanta_ai"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  # ==========================================
+  # Caching & Message Broker (Redis)
+  # ==========================================
+  redis:
+    image: redis:7-alpine
+    container_name: orvanta-redis
+    restart: always
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+
+  # ==========================================
+  # Vector Database (Qdrant)
+  # ==========================================
+  qdrant:
+    image: qdrant/qdrant:latest
+    container_name: orvanta-qdrant
+    restart: always
+    ports:
+      - "6333:6333"
+      - "6334:6334"
+    volumes:
+      - qdrant_data:/qdrant/storage
+
+  # ==========================================
+  # Workflow Automation Engine (n8n)
+  # ==========================================
+  n8n:
+    image: n8nio/n8n:latest
+    container_name: orvanta-n8n
+    restart: always
+    ports:
+      - "5678:5678"
+    environment:
+      - N8N_BASIC_AUTH_ACTIVE=true
+      - N8N_BASIC_AUTH_USER=admin
+      - N8N_BASIC_AUTH_PASSWORD=orvanta_admin
+      - WEBHOOK_URL=http://localhost:5678/
+    volumes:
+      - n8n_data:/home/node/.n8n
+
+  # ==========================================
+  # Backend API Gateway & Agents (FastAPI)
+  # ==========================================
+  backend:
+    build:
+      context: .
+      dockerfile: infrastructure/docker/Dockerfile.backend
+    container_name: orvanta-backend
+    restart: always
+    ports:
+      - "8000:8000"
+    environment:
+      - DATABASE_URL=postgresql+asyncpg://orvanta:orvanta_secure_password@postgres:5432/orvanta_ai
+      - REDIS_URL=redis://redis:6379/0
+      - QDRANT_HOST=qdrant
+      - QDRANT_PORT=6333
+    env_file:
+      - .env
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    volumes:
+      - ./backend:/app/backend
+      - ./agents:/app/agents
+      - ./ai:/app/ai
+      - ./ml:/app/ml
+      - ./integrations:/app/integrations
+
+  # ==========================================
+  # Frontend Application (Next.js)
+  # ==========================================
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: ../infrastructure/docker/Dockerfile.frontend
+    container_name: orvanta-frontend
+    restart: always
+    ports:
+      - "3000:3000"
+    environment:
+      - NEXT_PUBLIC_API_URL=http://localhost:8000
+    depends_on:
+      - backend
+
+volumes:
+  postgres_data:
+  redis_data:
+  qdrant_data:
+  n8n_data:
