@@ -1,0 +1,82 @@
+{
+  "name": "ORVANTA AI - Autonomous Churn Intervention",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "act-101",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "id": "1",
+      "name": "Webhook Trigger from ORVANTA",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [250, 300]
+    },
+    {
+      "parameters": {
+        "channel": "#exec-churn-alerts",
+        "text": "=🚨 *ORVANTA AI Action Approved:* Executive Intervention for {{$json.body.action.title}} has been triggered by {{$json.body.approved_by}}.\n*Expected Impact:* {{$json.body.action.estimated_roi}}",
+        "attachments": []
+      },
+      "id": "2",
+      "name": "Send Slack Alert",
+      "type": "n8n-nodes-base.slack",
+      "typeVersion": 1,
+      "position": [500, 200]
+    },
+    {
+      "parameters": {
+        "resource": "task",
+        "title": "=URGENT: Executive retention review for {{$json.body.action.title}}",
+        "priority": "HIGH"
+      },
+      "id": "3",
+      "name": "Create HubSpot CRM Task",
+      "type": "n8n-nodes-base.hubspot",
+      "typeVersion": 1,
+      "position": [500, 400]
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "{\n  \"status\": \"executed\",\n  \"slack_notified\": true,\n  \"crm_task_created\": true\n}"
+      },
+      "id": "4",
+      "name": "Respond to ORVANTA Webhook",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1,
+      "position": [750, 300]
+    }
+  ],
+  "connections": {
+    "Webhook Trigger from ORVANTA": {
+      "main": [
+        [
+          {
+            "node": "Send Slack Alert",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Create HubSpot CRM Task",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send Slack Alert": {
+      "main": [
+        [
+          {
+            "node": "Respond to ORVANTA Webhook",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  }
+}
