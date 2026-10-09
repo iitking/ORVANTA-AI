@@ -1735,14 +1735,40 @@ That is what makes ORVANTA AI a serious production-oriented AI engineering proje
 
 ---
 
-## 📜 License & Copyright
+## 👨‍💻 Author
 
-MIT License • Copyright &copy; 2025-2026 **Nivesh Kumar Meena** (ORVANTA AI). All Rights Reserved.
+<div align="center">
+
+<a href="https://github.com/iitking">
+  <img src="https://github.com/iitking.png" width="110" height="110" style="border-radius:50%" alt="Nivesh Kumar Meena" />
+</a>
+
+### **Nivesh Kumar Meena**
+
+**AI Architect · MLOps Engineer** | B.Tech Electrical Engineering, **IIT Roorkee**
+
+*Building agentic AI systems, RAG pipelines and production-ready ML.*
+
+<a href="https://www.linkedin.com/in/nivesh-kumar-meena-a31465221/"><img src="https://img.shields.io/badge/LinkedIn-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white" alt="LinkedIn" /></a>
+<a href="https://github.com/iitking"><img src="https://img.shields.io/badge/GitHub-181717?style=for-the-badge&logo=github&logoColor=white" alt="GitHub" /></a>
+<a href="mailto:niveshkr149@gmail.com"><img src="https://img.shields.io/badge/Email-D14836?style=for-the-badge&logo=gmail&logoColor=white" alt="Email" /></a>
+
+</div>
 
 ---
 
-## ⭐ Project Status
+## 📜 Copyright & Usage
 
-🚧 **In Development**
+**© 2026 Nivesh Kumar Meena. All Rights Reserved.**
 
-The project is being developed progressively from an AI SaaS foundation toward a production-grade autonomous B2B business intelligence platform.
+This project, including its source code, architecture and documentation, is the original work of **Nivesh Kumar Meena**.
+
+🚫 You may **not** copy, reproduce, modify, distribute, sublicense, or use this code (in whole or in part) for any personal, academic, or commercial purpose **without prior written permission** from the author.
+
+✅ Viewing the repository for evaluation purposes (for example, by recruiters and hiring managers) is welcome.
+
+📩 **Need permission or want to collaborate?** Contact: [niveshkr149@gmail.com](mailto:niveshkr149@gmail.com)
+
+<div align="center">
+  <sub>⭐ If you found this project interesting, feel free to star it.</sub>
+</div>
