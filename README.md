@@ -1679,39 +1679,6 @@ It is positioned as:
 
 ---
 
-# 💼 Resume Description
-
-### ORVANTA AI — Autonomous B2B Business Intelligence & Growth Platform
-
-> Built an AI-native, multi-tenant B2B SaaS platform using **LangGraph, LangSmith, FastAPI, Next.js, PostgreSQL, Qdrant and n8n** that connects enterprise data, CRM, support systems and documents to generate business intelligence, predictive insights and human-approved automated workflows.
-
-### Resume bullets
-
-```text
-• Designed a multi-agent LangGraph architecture with specialized
-  Data, Sales, Support, Customer and Strategy agents.
-
-• Implemented RAG-based enterprise knowledge retrieval using
-  Qdrant, embeddings, reranking and document processing pipelines.
-
-• Built AI-powered Text-to-SQL analytics for querying structured
-  business data and generating automated business insights.
-
-• Developed predictive ML pipelines for churn prediction,
-  lead scoring and revenue forecasting using XGBoost and MLflow.
-
-• Integrated n8n-based event-driven automation for Slack,
-  Gmail, CRM and Jira workflows.
-
-• Implemented RBAC, tenant isolation, audit logging,
-  AI guardrails and human-in-the-loop approval workflows.
-
-• Added LangSmith tracing and evaluation pipelines to monitor
-  agent reliability, latency, token usage and tool failures.
-```
-
----
-
 # 🏆 Final Vision
 
 The final ORVANTA AI platform should work like this:
